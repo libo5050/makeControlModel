@@ -69,17 +69,24 @@ func (c *MakeControlController) PostMakeControl() {
 	}
 
 	tableSlice := strings.Split(tableName, "_")
-	humpTable = tableSlice[0]
 	for i := 0; i < len(tableSlice); i++ {
-		upperTable += strFirstToUpper(tableSlice[i])
 		if i > 0 {
-			humpTable += strFirstToUpper(tableSlice[i])
+			humpTable = strFirstToUpper(tableSlice[i])
+		}else{
+			humpTable =  tableSlice[i]
 		}
+		upperTable += humpTable
 	}
 
 	//创建文件
 	fileName := path + upperTable + ".php"
 
+	//检测文件是否已存在
+	_,err := os.Open(fileName)
+	if err == nil{
+		panic("当前文件已存在")
+		return
+	}
 	f, err := os.Create(fileName)
 
 	classFile := "<?php" +
@@ -111,9 +118,10 @@ func (c *MakeControlController) PostMakeControl() {
 		"$page = $this->get('p', 1);\r\n" +
 		"$start = ($page - 1) * self::LIMIT;\r\n" +
 		"$" + tableName + "_list = (new " + upperTable + "Model())->page" + upperTable + "List($start, self::LIMIT);\r\n" +
-		"$pager = new Cola_Pager($page, self::LIMIT, $" + tableName + "_list['count'], '/" + upperTable + "/" + upperTable + "List?p=%page%');\r\n" +
+		"$pager = new Cola_Pager($page, self::LIMIT, $" + tableName + "_list['count'], '/" + upperTable + "/" + humpTable + "List?p=%page%');\r\n" +
 		"$this->assign('pager', $pager->html());\r\n" +
 		"$this->assign('" + tableName + "_list', $" + tableName + "_list);\r\n" +
+		"$this->displays('" + upperTable + "/" + humpTable + "List.phtml');\r\n" +
 		"}\r\n" +
 		"\r\n" +
 		"/**\r\n" +

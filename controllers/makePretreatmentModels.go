@@ -8,11 +8,11 @@ import (
 	"fmt"
 )
 
-type MakeModelsController struct {
+type MakePretreatmentModelsController struct {
 	beego.Controller
 }
 
-func (c *MakeModelsController) Get() {
+func (c *MakePretreatmentModelsController) GetPretreatment() {
 	//设置是否显示视图
 	beego.BConfig.WebConfig.AutoRender = true
 	tableList := models.GetDbTables()
@@ -21,10 +21,10 @@ func (c *MakeModelsController) Get() {
 		arr[m] = string(maps["TABLE_NAME"])
 	}
 	c.Data["TableList"] = arr
-	c.TplName = "makeModels/index.tpl"
+	c.TplName = "makePretreatmentModels/index.tpl"
 }
 
-func (c *MakeModelsController) PostMakeModels() {
+func (c *MakePretreatmentModelsController) PostMakePretreatmentModels() {
 	//设置是否显示视图
 	beego.BConfig.WebConfig.AutoRender = false
 	tableName := c.GetString("table_name")
@@ -87,7 +87,7 @@ func (c *MakeModelsController) PostMakeModels() {
 	upperTable := ""
 	tableSlice := strings.Split(tableName, "_")
 	for i := 0; i < len(tableSlice); i++ {
-		upperTable += strFirstToUpper(tableSlice[i])
+		upperTable += strPretreatmentFirstToUpper(tableSlice[i])
 	}
 
 	//创建文件
@@ -96,7 +96,7 @@ func (c *MakeModelsController) PostMakeModels() {
 	f, err := os.Create(fileName)
 
 	classFile := "<?php " +
-		"class " + upperTable + "Model extends Cola_Db_Mysql\r\n{\r\n" +
+		"class " + upperTable + "Model extends Cola_Db_Pdo_Mysql\r\n{\r\n" +
 		"/**\r\n" +
 		"* 表名\r\n" +
 		"*/\r\n" +
@@ -118,7 +118,7 @@ func (c *MakeModelsController) PostMakeModels() {
 		"public function add" + upperTable + "(" + insertFieldList + ")\r\n" +
 		"{\r\n" +
 		"$param =  " + insertField +
-		"return $this->insert($param, $this->_table);\r\n" +
+		"return $this->doInsert($this->_table,$param);\r\n" +
 		"}\r\n" +
 		"/**\r\n" +
 		"* 更新数据\r\n" +
@@ -131,7 +131,7 @@ func (c *MakeModelsController) PostMakeModels() {
 		"*/\r\n" +
 		"public function update" + upperTable + "($id, $data)\r\n" +
 		"{\r\n" +
-		"return $this->update($id, $data, $this->_pk, $this->_table);\r\n" +
+		"return $this->doUpdate($this->_table,$data,\"{$this->_pk}={$id}\");\r\n" +
 		"}\r\n" +
 		"/**\r\n" +
 		"* 获取数据\r\n" +
@@ -142,7 +142,7 @@ func (c *MakeModelsController) PostMakeModels() {
 		"*/\r\n" +
 		"public function get" + upperTable + "($id)\r\n" +
 		"{\r\n" +
-		"return $this->load($id, $this->_pk, $this->_table);\r\n" +
+		"return $this->getRow(\"select * from {$this->_table} where {$this->_pk} =:id\", [':id' => $id]);\r\n" +
 		"}\r\n" +
 		"/**\r\n" +
 		"* 删除数据\r\n" +
@@ -165,14 +165,13 @@ func (c *MakeModelsController) PostMakeModels() {
 		"*/\r\n" +
 		"public function page" + upperTable + "List($start,$limit)\r\n" +
 		"{\r\n" +
-		"$count_sql = \"select count(*) as count from `{$this->_table}`\";\r\n" +
-		"$count = $this->sql($count_sql);\r\n" +
+		"$count = $this->getCount($this->_table, \"1= 1\");\r\n" +
 		"$data = [];\r\n" +
-		"if ($count[0]['count']) {\r\n" +
+		"if ($count) {\r\n" +
 		"$sql = \"select * from `{$this->_table}` order by `add_time` desc,`{$this->_pk}` desc limit {$start},{$limit}\";\r\n" +
-		"$data = $this->sql($sql);\r\n" +
+		"$data = $this->bindSql($sql,[]);\r\n" +
 		"}\r\n" +
-		"return ['count' => $count[0]['count'], 'data' => $data];\r\n" +
+		"return ['count' => $count, 'data' => $data];\r\n" +
 		"}\r\n" +
 		"}"
 	defer f.Close()
@@ -185,7 +184,7 @@ func (c *MakeModelsController) PostMakeModels() {
 	fmt.Println(columArr)
 }
 
-func strFirstToUpper(str string) string {
+func strPretreatmentFirstToUpper(str string) string {
 	temp := strings.Split(str, "")
 	var upperStr, firstField string
 

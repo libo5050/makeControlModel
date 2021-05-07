@@ -169,7 +169,7 @@ func (c *MakeModelsController) PostMakeModels() {
 		"$count = $this->sql($count_sql);\r\n" +
 		"$data = [];\r\n" +
 		"if ($count[0]['count']) {\r\n" +
-		"$sql = \"select * from `{$this->_table}` order by `add_time` desc,`{$this->_pk}` desc limit {$start},{$limit}\";\r\n" +
+		"$sql = \"select * from `{$this->_table}`  order by `add_time` desc,`{$this->_pk}` desc limit {$start},{$limit}\";\r\n" +
 		"$data = $this->sql($sql);\r\n" +
 		"}\r\n" +
 		"return ['count' => $count[0]['count'], 'data' => $data];\r\n" +

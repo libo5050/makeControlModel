@@ -71,7 +71,7 @@
 <form name="form" action="/makeControl/postControl" method="post">
   <div class="item">
   <span>表名:</span>
-   <select name="table_name">
+   <select style="width:500px;" name="table_name">
    {{range $ind, $elem := .TableList}}
        <option value="{{$elem}}">{{$elem}}</option>
    {{end}}
@@ -79,16 +79,15 @@
  </div>
   <div class="item">
     <span>基类名:</span>
-     <input type="text" name="baseController" value="">
+     <input style="width:500px;" type="text" name="baseController" value="">
   </div>
  <div class="item">
    <span>生成路径:</span>
-    <input type="text" name="path" value="">
+    <input style="width:500px;" type="text" name="path" value="">
  </div>
  <div class="item">
      <input type="submit" name="submit" value="提交">
   </div>
   </form>
-  <script src="/static/js/reload.min.js"></script>
 </body>
 </html>

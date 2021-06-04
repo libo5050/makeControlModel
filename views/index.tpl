@@ -75,21 +75,14 @@
 
 <body>
   <header>
-    <h1 class="logo">Welcome to Beego</h1>
     <div class="description">
-      Beego is a simple & powerful Go web framework which is inspired by tornado and sinatra.
+        <a href="/makePretreatmentModels">生成 yaf model</a> /
+        <a href="/makeColaModels">生成 cola model</a> /
+        <a class="email" href="/makeControl">生成控制器</a>
+
     </div>
   </header>
-  <footer>
-    <div class="author">
-      Official website:
-      <a href="http://{{.Website}}">{{.Website}}</a> /
-      Contact me:
-      <a class="email" href="mailto:{{.Email}}">{{.Email}}</a>
-    </div>
-  </footer>
   <div class="backdrop"></div>
-
   <script src="/static/js/reload.min.js"></script>
 </body>
 </html>

@@ -69,7 +69,7 @@
 </head>
 
 <body>
-<form name="form" action="/makeModels/postMakeModels" method="post">
+<form name="form" action="/makeColaModels/postMakeColaModels" method="post">
   <div class="item">
   <span>表名:</span>
    <select style="width:500px;" name="table_name">

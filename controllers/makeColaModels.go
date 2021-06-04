@@ -96,7 +96,7 @@ func (c *MakeColaModelsController) PostMakeColaModels() {
 	f, err := os.Create(fileName)
 
 	classFile := "<?php " +
-		"class " + upperTable + "Model extends Cola_Model\r\n{\r\n" +
+		"class Models_" + upperTable + " extends Cola_Model\r\n{\r\n" +
 		"/** 构造方法\r\n" +
 		"*\r\n" +
 		"* @return \r\n" +

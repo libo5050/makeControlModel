@@ -2,7 +2,8 @@ package main
 
 import (
 	"github.com/astaxie/beego"
-	_ "makeModels/routers"
+	_ "makeControlModel/routers"
+
 )
 
 func main() {

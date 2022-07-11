@@ -2,7 +2,7 @@ package controllers
 
 import (
 	"github.com/astaxie/beego"
-	"makeModels/models"
+	"makeControlModel/models"
 	"strings"
 	"os"
 	"fmt"

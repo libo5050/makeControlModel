@@ -20,59 +20,40 @@
       background-color: #fff;
     }
 
-    header,
-    footer {
-      width: 960px;
-      margin-left: auto;
-      margin-right: auto;
-    }
 
-    header {
-      padding: 100px 0;
-    }
 
-    footer {
-      line-height: 1.8;
-      text-align: center;
-      padding: 50px 0;
-      color: #999;
-    }
+    .content{
+            position:absolute;
+            left:30%;
+            top:20%;
+        }
 
-    .description {
-      text-align: center;
-      font-size: 16px;
-    }
-
-    a {
-      color: #444;
-      text-decoration: none;
-    }
-
-    .backdrop {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      box-shadow: inset 0px 0px 100px #ddd;
-      z-index: -1;
-      top: 0px;
-      left: 0px;
-    }
-
-    .item {
-        margin-left:120px;
-        margin-bottom:20px;
-    }
-    .item span {
-
-    }
+        .item {
+            width:650px;
+            margin-top:30px;
+        }
+        .item span {
+            width:80px;
+        }
+        .sub{
+            width:180px;
+            height:35px;
+            line-height:35px;
+            margin-left:85px;
+            background: #cd4a40;
+            border:1px solid #cd4a40;
+            border-radius: 30px;
+            text-align: center;
+        }
   </style>
 </head>
 
 <body>
 <form name="form" action="/makeColaModels/postMakeColaModels" method="post">
+<div class="content">
   <div class="item">
   <span>表名:</span>
-   <select style="width:500px;" name="table_name">
+   <select style="width:300px;margin-left:28px;height:35px;border: 1px solid #d9d9d9;border-radius: 15px;" name="table_name">
    {{range $ind, $elem := .TableList}}
        <option value="{{$elem}}">{{$elem}}</option>
    {{end}}
@@ -80,10 +61,11 @@
  </div>
  <div class="item">
    <span>生成路径:</span>
-    <input style="width:500px;" type="text" name="path">
+    <input style="width:300px;height:35px;border: 1px solid #d9d9d9;border-radius: 15px;" type="text" name="path">
  </div>
  <div class="item">
-     <input type="submit" name="submit" value="提交">
+     <input type="submit" class="sub" name="submit" value="提交">
+  </div>
   </div>
   </form>
 </body>

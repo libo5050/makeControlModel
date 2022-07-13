@@ -8,5 +8,5 @@ import (
 
 func main() {
 	//beego.BConfig.WebConfig.AutoRender = false
-	beego.Run() 
+	beego.Run()
 }

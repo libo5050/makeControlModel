@@ -61,7 +61,7 @@
  </div>
  <div class="item">
    <span>生成路径:</span>
-    <input style="width:300px;height:35px;border: 1px solid #d9d9d9;border-radius: 15px;" type="text" name="path">
+    <input autocomplete="off" style="width:300px;height:35px;border: 1px solid #d9d9d9;border-radius: 15px;" type="text" name="path">
  </div>
  <div class="item">
      <input type="submit" class="sub" name="submit" value="提交">

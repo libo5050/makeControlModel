@@ -80,7 +80,7 @@
  </div>
  <div class="item">
    <span>生成路径:</span>
-    <input style="width:500px;" type="text" name="path">
+    <input autocomplete="off" style="width:500px;" type="text" name="path">
  </div>
  <div class="item">
      <input type="submit" name="submit" value="提交">

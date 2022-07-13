@@ -59,11 +59,11 @@
  </div>
   <div class="item">
     <span>基类名:</span>
-     <input style="width:300px;height:35px;margin-left:15px;border: 1px solid #d9d9d9;border-radius: 15px;" type="text" name="baseController" value="">
+     <input autocomplete="off" style="width:300px;height:35px;margin-left:15px;border: 1px solid #d9d9d9;border-radius: 15px;" type="text" name="baseController" value="">
   </div>
  <div class="item">
    <span>生成路径:</span>
-    <input style="width:300px;height:35px;margin-left:6px;border: 1px solid #d9d9d9;border-radius: 15px;" type="text" name="path" value="">
+    <input autocomplete="off" style="width:300px;height:35px;margin-left:6px;border: 1px solid #d9d9d9;border-radius: 15px;" type="text" name="path" value="">
  </div>
  <div class="item">
      <input type="submit" class="sub" name="submit" value="提交">

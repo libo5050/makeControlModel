@@ -35,6 +35,12 @@
         .item span {
             width:80px;
         }
+
+        input:focus{
+             border:none;
+             outline:none;
+        }
+
         .sub{
             width:180px;
             height:35px;

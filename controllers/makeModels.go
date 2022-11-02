@@ -38,6 +38,7 @@ func (c *MakeModelsController) PostMakeModels() {
 	var pkField, insertFieldList = "", ""
 	var insertField = "[\r\n"
 	var insertFieldDescript = "/**\r\n* 添加数据\r\n*\r\n"
+	var db_key = beego.AppConfig.String("myg_db_key")
 	for m, maps := range tableColum {
 		var column = make(map[string]interface{}, 4)
 		column["column_name"] = ""
@@ -112,7 +113,7 @@ func (c *MakeModelsController) PostMakeModels() {
 		"*/\r\n" +
 		"public function __construct()\r\n" +
 		"{\r\n" +
-		"parent::__construct(DB['wxt2019']);\r\n" +
+		"parent::__construct("+db_key+");\r\n" +
 		"}\r\n" +
 		insertFieldDescript +
 		"public function add" + upperTable + "(" + insertFieldList + ")\r\n" +

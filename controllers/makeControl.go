@@ -36,7 +36,6 @@ func (c *MakeControlController) PostMakeControl() {
 	tableColum := models.GetTableColum(tableName)
 	var columArr = make([]map[string]interface{}, len(tableColum))
 	var postField, editPostField, editField, insertField, insertIfField, editIfField, primaryFiled, upperTable, humpTable,allUpperTable = "", "", "", "", "", "", "", "", "",""
-
 	for m, maps := range tableColum {
 		var column = make(map[string]interface{}, 4)
 		column["column_name"] = ""

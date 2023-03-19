@@ -1,11 +1,11 @@
 package controllers
 
 import (
+	"fmt"
 	"github.com/astaxie/beego"
 	"makeControlModel/models"
-	"strings"
 	"os"
-	"fmt"
+	"strings"
 )
 
 type MakeModelsController struct {
@@ -92,7 +92,7 @@ func (c *MakeModelsController) PostMakeModels() {
 	}
 
 	//创建文件
-	fileName := path + upperTable + ".php"
+	fileName := path + "\\" + upperTable + ".php"
 	//fileName1 := path + tableName + "1.php"
 	f, err := os.Create(fileName)
 
@@ -113,7 +113,7 @@ func (c *MakeModelsController) PostMakeModels() {
 		"*/\r\n" +
 		"public function __construct()\r\n" +
 		"{\r\n" +
-		"parent::__construct("+db_key+");\r\n" +
+		"parent::__construct(" + db_key + ");\r\n" +
 		"}\r\n" +
 		insertFieldDescript +
 		"public function add" + upperTable + "(" + insertFieldList + ")\r\n" +

@@ -1,11 +1,11 @@
 package controllers
 
 import (
+	"fmt"
 	"github.com/astaxie/beego"
 	"makeControlModel/models"
-	"strings"
 	"os"
-	"fmt"
+	"strings"
 )
 
 type MakeColaModelsController struct {
@@ -91,8 +91,8 @@ func (c *MakeColaModelsController) PostMakeColaModels() {
 	}
 
 	//创建文件
-	fileName := path + upperTable + ".php"
-	//fileName1 := path + tableName + "1.php"
+	fileName := path + "\\" + upperTable + ".php"
+
 	f, err := os.Create(fileName)
 
 	classFile := "<?php " +
@@ -103,8 +103,8 @@ func (c *MakeColaModelsController) PostMakeColaModels() {
 		"*/\r\n" +
 		"public function __construct()\r\n" +
 		"{\r\n" +
-		"$this->_table = '"+tableName+"';\r\n" +
-		"$this->_pk = '"+pkField+"';\r\n" +
+		"$this->_table = '" + tableName + "';\r\n" +
+		"$this->_pk = '" + pkField + "';\r\n" +
 		"}\r\n" +
 		insertFieldDescript +
 		"public function add" + upperTable + "(" + insertFieldList + ")\r\n" +
@@ -175,4 +175,3 @@ func (c *MakeColaModelsController) PostMakeColaModels() {
 
 	fmt.Println(columArr)
 }
-

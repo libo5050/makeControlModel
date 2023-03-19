@@ -35,28 +35,46 @@ func (c *MakeControlController) PostMakeControl() {
 	}
 	tableColum := models.GetTableColum(tableName)
 	var columArr = make([]map[string]interface{}, len(tableColum))
-	var postField, editPostField, editField, insertField, insertIfField, editIfField, primaryFiled, upperTable, humpTable,allUpperTable = "", "", "", "", "", "", "", "", "",""
+	var postField, editPostField, editField, insertField, insertIfField, editIfField, primaryFiled, upperTable, humpTable, allUpperTable = "", "", "", "", "", "", "", "", "", ""
 	for m, maps := range tableColum {
 		var column = make(map[string]interface{}, 4)
 		column["column_name"] = ""
 
 		if maps["COLUMN_NAME"] != nil && string(maps["COLUMN_KEY"]) != "PRI" {
-			postField += "$" + string(maps["COLUMN_NAME"]) + " = $this->post('" + string(maps["COLUMN_NAME"]) + "');\r\n"
+			if string(maps["COLUMN_NAME"]) != "add_time" {
+				postField += "$" + string(maps["COLUMN_NAME"]) + " = $this->post('" + string(maps["COLUMN_NAME"]) + "');\r\n"
+			} else {
+				postField += "$add_time = time();\r\n"
+			}
 			if m == len(tableColum)-1 {
 				insertField += "$" + string(maps["COLUMN_NAME"])
-				insertIfField += "!$" + string(maps["COLUMN_NAME"])
-				editField += "'" + string(maps["COLUMN_NAME"]) + "' =>$" + string(maps["COLUMN_NAME"]) + "\r\n"
+				if string(maps["COLUMN_NAME"]) != "add_time" {
+					insertIfField += "!$" + string(maps["COLUMN_NAME"])
+					editField += "'" + string(maps["COLUMN_NAME"]) + "' =>$" + string(maps["COLUMN_NAME"]) + "\r\n"
+				}
 			} else {
-				insertIfField += "!$" + string(maps["COLUMN_NAME"]) + "||"
+				if string(maps["COLUMN_NAME"]) != "add_time" {
+					insertIfField += "!$" + string(maps["COLUMN_NAME"]) + "||"
+					editField += "'" + string(maps["COLUMN_NAME"]) + "' =>$" + string(maps["COLUMN_NAME"]) + ",\r\n"
+				}
 				insertField += "$" + string(maps["COLUMN_NAME"]) + ","
-				editField += "'" + string(maps["COLUMN_NAME"]) + "' =>$" + string(maps["COLUMN_NAME"]) + ",\r\n"
 			}
 		}
-		editPostField += "$" + string(maps["COLUMN_NAME"]) + " = $this->post('" + string(maps["COLUMN_NAME"]) + "');\r\n"
-		if m == len(tableColum)-1 {
-			editIfField += "!$" + string(maps["COLUMN_NAME"])
-		} else {
-			editIfField += "!$" + string(maps["COLUMN_NAME"]) + "||"
+
+		if string(maps["COLUMN_NAME"]) != "add_time" {
+			if string(maps["COLUMN_NAME"]) == "update_time" {
+				editPostField += "$update_time = time();\r\n"
+			} else {
+				editPostField += "$" + string(maps["COLUMN_NAME"]) + " = $this->post('" + string(maps["COLUMN_NAME"]) + "');\r\n"
+			}
+		}
+
+		if string(maps["COLUMN_NAME"]) != "add_time" && string(maps["COLUMN_NAME"]) != "update_time" {
+			if m == len(tableColum)-1 {
+				editIfField += "!$" + string(maps["COLUMN_NAME"])
+			} else {
+				editIfField += "!$" + string(maps["COLUMN_NAME"]) + "||"
+			}
 		}
 
 		if maps["COLUMN_KEY"] != nil {
@@ -68,23 +86,28 @@ func (c *MakeControlController) PostMakeControl() {
 
 	}
 
+	insertIfField = strings.Trim(insertIfField, "||")
+	editIfField = strings.Trim(editIfField, "||")
+	editField = strings.Trim(strings.Trim(editField, "\r\n"), ",")
+
+	fmt.Println(editField)
+
 	tableSlice := strings.Split(tableName, "_")
 	for i := 0; i < len(tableSlice); i++ {
 		allUpperTable += strFirstToUpper(tableSlice[i])
 		if i == 0 {
 			humpTable = strFirstToUpper(tableSlice[i])
-		}else{
-			humpTable =  tableSlice[i]
+		} else {
+			humpTable = tableSlice[i]
 		}
 		upperTable += humpTable
 	}
 
 	//创建文件
-	fileName := path + upperTable + ".php"
-
+	fileName := path + "\\" + upperTable + ".php"
 	//检测文件是否已存在
-	_,err := os.Open(fileName)
-	if err == nil{
+	_, err := os.Open(fileName)
+	if err == nil {
 		panic("当前文件已存在")
 		return
 	}
